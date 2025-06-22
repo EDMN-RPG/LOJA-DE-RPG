@@ -1,0 +1,176 @@
+/* Fonte medieval estilosa */
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+body {
+  background-color: #000; /* fundo preto */
+  color: #f4f1de; /* tom claro para o texto */
+  font-family: 'MedievalSharp', cursive;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #222;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid #6a4e27;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #f4f1de;
+  text-shadow: 1px 1px 2px #6a4e27;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav button {
+  background-color: #6a4e27;
+  border: none;
+  padding: 10px 15px;
+  margin: 0 8px;
+  border-radius: 8px;
+  color: #f4f1de;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 0 8px #6a4e27;
+}
+
+nav button:hover {
+  background-color: #a67c3d;
+  box-shadow: 0 0 15px #a67c3d;
+}
+
+section {
+  background-color: #111;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #6a4e27;
+}
+
+h2 {
+  color: #f4f1de;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #6a4e27;
+  padding-bottom: 8px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 20px 0;
+  border: 2px solid #6a4e27;
+  border-radius: 8px;
+  background-color: #222;
+  color: #f4f1de;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #a67c3d;
+  box-shadow: 0 0 10px #a67c3d;
+}
+
+.btn {
+  background-color: #6a4e27;
+  border: none;
+  padding: 12px 25px;
+  color: #f4f1de;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 0 10px #6a4e27;
+  font-size: 1.1rem;
+}
+
+.btn:hover {
+  background-color: #a67c3d;
+  box-shadow: 0 0 15px #a67c3d;
+}
+
+.produto {
+  background-color: #222;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #6a4e27;
+  box-shadow: 0 0 10px #6a4e27;
+}
+
+.produto h3 {
+  margin: 0 0 10px 0;
+  color: #f4f1de;
+}
+
+.produto p {
+  margin: 5px 0;
+}
+
+#lista-carrinho {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+#lista-carrinho li {
+  background-color: #222;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #6a4e27;
+  box-shadow: 0 0 8px #6a4e27;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f4f1de;
+}
+
+.remover-btn {
+  background-color: #a43c3c;
+  border: none;
+  color: #f4f1de;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  line-height: 28px;
+  box-shadow: 0 0 8px #a43c3c;
+  transition: background-color 0.3s ease;
+}
+
+.remover-btn:hover {
+  background-color: #d93f3f;
+  box-shadow: 0 0 12px #d93f3f;
+}
+
+#msg-login, #msg-cupom, #msg-carrinho {
+  color: #f4f1de;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px 10px;
+  background-color: #222;
+  border-top: 2px solid #6a4e27;
+  color: #f4f1de;
+  box-shadow: 0 0 10px #6a4e27;
+  font-weight: bold;
+  margin-top: 30px;
+  font-size: 0.9rem;
+}
