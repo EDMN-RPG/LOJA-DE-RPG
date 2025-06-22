@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RPG Medieval Shop - Registro & Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'MedievalSharp', cursive;
+      background-color: #000000;
+      color: #f9f5e7;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #111;
+      padding: 15px 20px;
+      text-align: center;
+      border-bottom: 2px solid #b79f38;
+    }
+    nav button {
+      background: #3e3a2d;
+      border: none;
+      color: #f9f5e7;
+      padding: 10px 15px;
+      margin: 0 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    nav button.active, nav button:hover {
+      background: #b79f38;
+      color: #000;
+    }
+    main {
+      flex: 1;
+      padding: 20px;
+    }
+    section {
+      display: none;
+      background: #111;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+      box-shadow: 0 0 10px #b79f38;
+    }
+    section.active {
+      display: block;
+    }
+    h2 {
+      margin-top: 0;
+      color: #b79f38;
+      text-align: center;
+      text-shadow: 1px 1px 2px #000;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px 0;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button.submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #b79f38;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button.submit-btn:hover {
+      background: #d1b15f;
+    }
+    #msg-login, #msg-registro, #msg-carrinho {
+      color: #f39c12;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 24px;
+    }
+    .produto {
+      background: #222;
+      border: 1px solid #b79f38;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 0 5px #b79f38;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .produto h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #e6c75a;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .produto p {
+      margin: 5px 0 0 0;
+      font-size: 0.9rem;
+    }
+    .btn {
+      background: #6a4e27;
+      border: none;
+      color: #f9f5e7;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #b79f38;
+      color: #000;
+    }
+    ul#lista-carrinho {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+    }
+    ul#lista-carrinho li {
+      background: #222;
+      border: 1px solid #b79f38;
+      padding: 10px 15px;
+      margin: 5px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    ul#lista-carrinho li button.remover-btn {
+      background: #a03232;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    ul#lista-carrinho li button.remover-btn:hover {
+      background: #d13939;
+    }
+    #total-container, #cupom-container {
+      max-width: 600px;
+      margin: 0 auto 10px auto;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #e6c75a;
+      text-shadow: 1px 1px 2px #000;
+    }
+    #cupom-container {
+      display: flex;
+      gap: 10px;
+    }
+    #cupom-container input {
+      flex: 1;
+    }
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      background: #111;
+      color: #b79f38;
+      user-select: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛡️ RPG Medieval Shop 🧙‍♂️</h1>
+    <nav>
+      <button id="btnLogin" onclick="mostrarSecao('login')" class="active">Login</button>
+      <button id="btnRegistro" onclick="mostrarSecao('registro')">Registrar</button>
+      <button id="btnCatalogo" onclick="mostrarSecao('catalogo')">Catálogo</button>
+      <button id="btnCarrinho" onclick="mostrarSecao('carrinho')">Carrinho</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="login" class="active" aria-label="Login">
+      <h2>Login do Aventureiro</h2>
+      <form onsubmit="event.preventDefault(); fazerLogin();">
+        <input type="text" id="usuarioLogin" placeholder="Usuário" autocomplete="username" required />
+        <input type="password" id="senhaLogin" placeholder="Senha" autocomplete="current-password" required />
+        <button type="submit" class="submit-btn">Entrar</button>
+      </form>
+      <p id="msg-login" aria-live="polite"></p>
+    </section>
+
+    <section id="registro" aria-label="Registro de Conta">
+      <h2>Registro de Novo Aventureiro</h2>
+      <form onsubmit="event.preventDefault(); fazerRegistro();">
+        <input type="text" id="usuarioReg" placeholder="Novo Usuário" autocomplete="username" required />
+        <input type="password" id="senhaReg" placeholder="Nova Senha" autocomplete="new-password" required />
+        <button type="submit" class="submit-btn">Registrar</button>
+      </form>
+      <p id="msg-registro" aria-live="polite"></p>
+    </section>
+
+    <section id="catalogo" aria-label="Catálogo de Produtos">
+      <h2>📚 Catálogo de Itens</h2>
+      <div id="produtos"></div>
+    </section>
+
+    <section id="carrinho" aria-label="Carrinho de compras">
+      <h2>🎒 Seu Mochilão</h2>
+      <p id="msg-carrinho"></p>
+      <ul id="lista-carrinho" aria-live="polite" aria-relevant="all"></ul>
+      <div id="total-container">
+        Total: R$ <span id="total">0.00</span>
+      </div>
+      <div id="cupom-container">
+        <input type="text" id="cupom" placeholder="Cupom de Desconto" aria-label="Campo para cupom de desconto" />
+        <button onclick="aplicarCupom()">Aplicar Cupom</button>
+      </div>
+      <p id="msg-cupom" aria-live="polite"></p>
+      <button id="finalizar-btn" onclick="finalizarCompra()">Finalizar Compra no WhatsApp</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 RPG Medieval Shop. Honra e glória aos aventureiros!</p>
+  </footer>
+
+  <script>
+    // Simples armazenamento local de usuários (apenas para demo, sem segurança real)
+    let usuarios = JSON.parse(localStorage.getItem('usuariosRPG')) || [];
+    let usuarioLogado = null;
+    let carrinho = [];
+    let desconto = 0;
+
+    const produtos = [
+      { codigo: 'F001', nome: "Ficha Personalizada", preco: 12 },
+      { codigo: 'L001', nome: "Livro de Regras", preco: 25 },
+      { codigo: 'L002', nome: "Livro de Histórias", preco: 18 },
+      { codigo: 'D001', nome: "Pack de Dados (D4 a D20)", preco: 1 },
+      { codigo: 'A001', nome: "Aventuras Únicas - Volume 1", preco: 10 },
+      { codigo: 'K001', nome: "Kit Mestre Completo (fichas + regras + dados)", preco: 30 },
+      { codigo: 'M001', nome: "Mapa Dobrável A3 de Dungeon", preco: 5 },
+      { codigo: 'T001', nome: "Tokens Coloridos (25 unidades)", preco: 4 }
+    ];
+
+    const cuponsValidos = {
+      "MAGIA20": 0.20,
+      "ESPADA20": 0.20,
+      "RPG20": 0.20,
+      "BOSS50": 0.50
+    };
+
+    function mostrarSecao(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      if (id === 'login') document.getElementById('btnLogin').classList.add('active');
+      else if (id === 'registro') document.getElementById('btnRegistro').classList.add('active');
+      else if (id === 'catalogo') document.getElementById('btnCatalogo').classList.add('active');
+      else if (id === 'carrinho') document.getElementById('btnCarrinho').classList.add('active');
+
+      atualizarMsgCarrinho();
+    }
+
+    function fazerRegistro() {
+      const user = document.getElementById('usuarioReg').value.trim();
+      const pass = document.getElementById('senhaReg').value.trim();
+
+      if (!user || !pass) {
+        document.getElementById('msg-registro').innerText = "Preencha todos os campos, bravo aventureiro!";
+        return;
+      }
+
+      if (usuarios.find(u => u.usuario === user)) {
+        document.getElementById('msg-registro').innerText = "Usuário já existe, tente outro nome.";
+        return;
+      }
+
+      usuarios.push({ usuario: user, senha: pass });
+      localStorage.setItem('usuariosRPG', JSON.stringify(usuarios));
+      document.getElementById('msg-registro').innerText = "Registro realizado com sucesso! Agora faça login.";
+      document.getElementById('usuarioReg').value = "";
+      document.getElementById('senhaReg').value = "";
+      mostrarSecao('login');
+    }
+
+    function fazerLogin() {
+      const user = document.getElementById('usuarioLogin').value.trim();
+      const pass = document.getElementById('senhaLogin').value.trim();
+
+      const encontrado = usuarios.find(u => u.usuario === user && u.senha === pass);
+
+      if (encontrado) {
+        usuarioLogado = encontrado;
+        document.getElementById('msg-login').innerText = "";
+        mostrarSecao('catalogo');
+        limparCamposLogin();
+        atualizarMsgCarrinho();
+      } else {
+        document.getElementById('msg-login').innerText = "Acesso negado, guerreiro.";
+      }
+    }
+
+    function limparCamposLogin() {
+      document.getElementById('usuarioLogin').value = "";
+      document.getElementById('senhaLogin').value = "";
+    }
+
+    function carregarProdutos() {
+      const container = document.getElementById('produtos');
+      container.innerHTML = "";
+      produtos.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'produto';
+        div.innerHTML = `
+          <div>
+            <h3>${p.nome}</h3>
+            <p>Código: ${p.codigo}</p>
+            <p>Preço: R$ ${p.preco.toFixed(2)}</p>
+          </div>
+          <button onclick="adicionarAoCarrinho('${p.codigo}', '${p.nome}', ${p.preco})" class="btn">Adicionar à mochila</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function adicionarAoCarrinho(codigo, nome, preco) {
+      if (!usuarioLogado) {
+        alert("⚔️ Aventureiro, crie sua conta antes de comprar! Sua jornada começa com um registro.");
+        mostrarSecao('registro');
+        return;
+      }
+      carrinho.push({ codigo, nome, preco });
+      atualizarCarrinho();
+      mostrarSecao('carrinho');
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById('lista-carrinho');
+      lista.innerHTML = "";
+      let total = 0;
+      carrinho.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${item.nome} (${item.codigo}) - R$ ${item.preco.toFixed(2)}
+          <button onclick="removerDoCarrinho(${index})" class="remover-btn" aria-label="Remover ${item.nome} do carrinho">X</button>
+        `;
+        lista.appendChild(li);
+        total += item.preco;
+      });
+      total = total - (total * desconto);
+      document.getElementById('total').innerText = total.toFixed(2);
+      atualizarMsgCarrinho();
+    }
+
+    function removerDoCarrinho(index) {
+      carrinho.splice(index, 1);
+      atualizarCarrinho();
+    }
+
+    function aplicarCupom() {
+      const cupom = document.getElementById('cupom').value.trim().toUpperCase();
+      const msgCupom = document.getElementById('msg-cupom');
+      if (cuponsValidos[cupom]) {
+        desconto = cuponsValidos[cupom];
+        msgCupom.innerText = `Cupom aplicado: ${cupom} - Desconto de ${desconto * 100}%`;
+      } else {
+        desconto = 0;
+        msgCupom.innerText = "Cupom inválido.";
+      }
+      atualizarCarrinho();
+    }
+
+    function finalizarCompra() {
+      if (carrinho.length === 0) {
+        alert("Seu mochilão está vazio, herói!");
+        return;
+      }
+      const numero = "5542999865245";
+      const lista = carrinho.map(p => `${p.nome} (${p.codigo}) - R$ ${p.preco.toFixed(2)}`).join("%0A");
+      const total = document.getElementById('total').innerText;
+      const msg = `Olá! Quero comprar os seguintes itens:%0A${lista}%0ATotal: R$ ${total}`;
+      window.open(`https://wa.me/${numero}?text=${msg}`, '_blank');
+    }
+
+    function atualizarMsgCarrinho() {
+      const msg = document.getElementById('msg-carrinho');
+      if (!usuarioLogado) {
+        msg.innerText = "⚔️ Aventureiro, crie sua conta antes de comprar! Sua jornada começa com um registro.";
+      } else if (carrinho.length === 0) {
+        msg.innerText = "Seu mochilão está vazio, aventureiro.";
+      } else {
+        msg.innerText = "";
+      }
+    }
+
+    window.onload = () => {
+      carregarProdutos();
+      mostrarSecao('login');
+    };
+  </script>
+</body>
+</html>
